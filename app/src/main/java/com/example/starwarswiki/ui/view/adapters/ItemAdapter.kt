@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.starwarswiki.core.Person
+import com.example.starwarswiki.core.Starship
 import com.example.starwarswiki.ui.view.listeners.OnItemAddToFavListener
 import online.example.starwarswiki.R
 import online.example.starwarswiki.databinding.RvItemBinding
@@ -13,7 +15,7 @@ import online.example.starwarswiki.databinding.RvItemBinding
 class ItemAdapter(private val context: Context) :
     RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
-    private var data: ArrayList<Pair<Any, String>> = ArrayList()
+    private var data: ArrayList<Any> = ArrayList()
     private lateinit var listener: OnItemAddToFavListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -31,11 +33,9 @@ class ItemAdapter(private val context: Context) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: ArrayList<Pair<Any, String>>?) {
-        data?.let {
-            this.data = it
-            notifyDataSetChanged()
-        }
+    fun setData(data: ArrayList<Any>) {
+        this.data = data
+        notifyDataSetChanged()
     }
 
     fun setClickListener(listener: OnItemAddToFavListener) {
@@ -46,18 +46,21 @@ class ItemAdapter(private val context: Context) :
         RecyclerView.ViewHolder(rvItemBinding.root) {
         private val binding = rvItemBinding
 
-        fun bind(rvItem: Pair<Any, String>?) {
-            rvItem?.let {
-                binding.tvItemType.text = it.first.toString()
-                binding.tvTitle.text = it.second.toString()
+        fun bind(rvItem: Any) {
+            if (rvItem is Person) {
+                binding.tvItemType.text = "Person"
+                binding.tvTitle.text = rvItem.name
+            } else if (rvItem is Starship) {
+                binding.tvItemType.text = "Starship"
+                binding.tvTitle.text = rvItem.name
+            }
 
-                binding.btnSetFav.setOnClickListener {
-                    Glide
-                        .with(context)
-                        .load(R.drawable.ic_fav)
-                        .into(binding.btnSetFav)
-                    listener.onItemAddToFav(rvItem, true)
-                }
+            binding.btnSetFav.setOnClickListener {
+                Glide
+                    .with(context)
+                    .load(R.drawable.ic_fav)
+                    .into(binding.btnSetFav)
+                listener.onItemAddToFav(rvItem, true)
             }
 
         }

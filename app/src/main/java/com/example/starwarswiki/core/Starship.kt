@@ -1,7 +1,11 @@
 package com.example.starwarswiki.core
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Starship(
     //    Search Field name, model
     @SerializedName("name")
@@ -44,11 +48,13 @@ data class Starship(
     val consumables: String,
 
     @SerializedName("films")
-    val films: ArrayList<Film>,
+    val films: ArrayList<String>,
 
     @SerializedName("pilots")
-    val pilots: ArrayList<Person>,
+    val pilots: ArrayList<String>,
 
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("url")
     val url: String,
 

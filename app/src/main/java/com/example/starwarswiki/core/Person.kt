@@ -1,8 +1,15 @@
 package com.example.starwarswiki.core
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+import androidx.room.Relation
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
 
+@Entity
 data class Person(
 //    Search Field
     @SerializedName("name")
@@ -44,16 +51,16 @@ data class Person(
     @SerializedName("vehicles")
     val vehicles: ArrayList<String> = ArrayList(),
 
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("url")
     val url: String,
 
     @SerializedName("created")
-//    val created: String,
-    val created: LocalDateTime,
+    val created: String,
 
     @SerializedName("edited")
-//    val edited: String
-    val edited: LocalDateTime,
+    val edited: String,
 
     ) {
     companion object {

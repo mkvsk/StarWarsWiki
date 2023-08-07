@@ -1,8 +1,12 @@
 package com.example.starwarswiki.core
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
+@Entity
 data class Film(
     //    Search Field
     @SerializedName("title")
@@ -38,6 +42,8 @@ data class Film(
     @SerializedName("planets")
     val planets: ArrayList<String>,
 
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("url")
     val url: String,
 

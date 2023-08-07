@@ -1,4 +1,4 @@
-package com.example.starwarswiki.core.repository
+package com.example.starwarswiki.ui.repository
 
 import android.util.Log
 import com.example.starwarswiki.callback.ResultCallback

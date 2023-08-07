@@ -55,7 +55,8 @@ class FavouritesFragment : Fragment(), OnItemAddToFavListener {
         _binding = null
     }
 
-    override fun onItemAddToFav(item: Pair<Any, String>, add: Boolean) {
+    override fun onItemAddToFav(item: Any, add: Boolean) {
 
     }
+
 }

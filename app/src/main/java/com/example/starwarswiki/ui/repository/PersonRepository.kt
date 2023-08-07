@@ -1,4 +1,4 @@
-package com.example.starwarswiki.core.repository
+package com.example.starwarswiki.ui.repository
 
 import android.util.Log
 import com.example.starwarswiki.callback.ResultCallback
@@ -35,7 +35,7 @@ class PersonRepository {
                             Log.d(TAG, "GET PEOPLE OK ${response.body().toString()}")
                             callback.onResult(response.body())
                         } else {
-                            Log.d(TAG, "GET PEOPLE ERROR ${response.body().toString()}")
+                            Log.d(TAG, "GET PEOPLE ERROR ${response.raw().toString()}")
                             callback.onFailure(null)
                         }
                     }

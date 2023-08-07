@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.starwarswiki.ui.util.obtainViewModel
 import com.example.starwarswiki.ui.view.adapters.ItemAdapter
 import com.example.starwarswiki.ui.view.listeners.OnItemAddToFavListener
+import com.example.starwarswiki.ui.viewmodel.HomeViewModel
 import online.example.starwarswiki.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment(), OnItemAddToFavListener {
@@ -15,9 +17,11 @@ class HomeFragment : Fragment(), OnItemAddToFavListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private val homeViewModel by lazy { obtainViewModel(HomeViewModel::class.java) }
+
+
     private var rv: RecyclerView? = null
     private var itemAdapter: ItemAdapter? = null
-    private var data: ArrayList<Pair<Any, String>> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,30 +34,29 @@ class HomeFragment : Fragment(), OnItemAddToFavListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        homeViewModel.getAllPeople()
+        homeViewModel.getAllStarships()
         setupAdapter()
         initObservers()
         initViews()
     }
 
     private fun initViews() {
-        data.add("Starship" to "1")
-        data.add("Person" to "2")
-        data.add("Starship" to "3")
-        data.add("Starship" to "4")
-        data.add("Person" to "5")
-        data.add("Starship" to "6")
-        data.add("Person" to "7")
-        data.add("Person" to "8")
-        data.add("Starship" to "9")
-        data.add("Person" to "10")
-        data.add("Starship" to "11")
-        data.add("Person" to "12")
 
-        itemAdapter?.setData(data)
     }
 
     private fun initObservers() {
+        homeViewModel.allPeople.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty() && !homeViewModel.allStarships.value.isNullOrEmpty()) {
+                homeViewModel.getAllData()
+            }
+        }
 
+        homeViewModel.allData.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                itemAdapter?.setData(it)
+            }
+        }
     }
 
     private fun setupAdapter() {
@@ -68,7 +71,7 @@ class HomeFragment : Fragment(), OnItemAddToFavListener {
         _binding = null
     }
 
-    override fun onItemAddToFav(item: Pair<Any, String>, add: Boolean) {
+    override fun onItemAddToFav(item: Any, add: Boolean) {
 
     }
 }
