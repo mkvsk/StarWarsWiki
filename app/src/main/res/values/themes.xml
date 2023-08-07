@@ -1,0 +1,60 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.StarWarsWiki" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <color name="theme_primary_bgr">#ECEFF1</color>
+    <color name="main_text">#FF000000</color>
+    <color name="theme_toolbar_ic_color">#FF000000</color>
+    <color name="hint_text">#B0BEC5</color>
+    <color name="et_search_bgr">#FFFFFF</color>
+    <color name="theme_toolbar_color">#ECEFF1</color>
+    <color name="rv_thumb_color">#B0BEC5</color>
+    <color name="rv_thumb_line_color">#ECEFF1</color>
+    <color name="item_not_selected_color">#ECEFF1</color>
+    <color name="status_bar_color">#B0BEC5</color>
+
+
+    <style name="ThemeOverlay.MaterialComponents.Toolbar.Popup.Primary." parent="Theme.AppCompat.Light">
+        <item name="android:colorBackground">@color/theme_primary_bgr</item>
+        <item name="android:textColor">@color/main_text</item>
+    </style>
+
+    <style name="searchEditText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/main_text</item>
+    </style>
+
+    <style name="txtToolbar">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="myMaterialCardHomeRounded" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/item_not_selected_color</item>
+        <item name="android:translationZ">6dp</item>
+        <item name="android:shadowRadius">10</item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay_card_custom_corners_rv
+        </item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay_card_custom_corners_rv" parent="">
+        <item name="cornerFamily">rounded</item>
+     <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="tvRvTextStyle">
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>
