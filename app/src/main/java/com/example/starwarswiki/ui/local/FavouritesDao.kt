@@ -1,5 +1,7 @@
 package com.example.starwarswiki.ui.local
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -11,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface FavouritesDao {
     @Query("SELECT * FROM Person")
-    suspend fun getAllPeople(): Flow<List<Person>>
+    fun getAllPeople(): LiveData<List<Person>>
 
     @Query("SELECT * FROM Starship")
-    suspend fun getAllStarships(): Flow<List<Starship>>
+    fun getAllStarships(): LiveData<List<Starship>>
 
     @Insert
     suspend fun insertPeople(person: Person)

@@ -1,15 +1,16 @@
 package com.example.starwarswiki.ui.local
 
+import androidx.lifecycle.MutableLiveData
 import com.example.starwarswiki.core.Person
 import com.example.starwarswiki.core.Starship
 import kotlinx.coroutines.flow.Flow
 
 class FavouritesRepository(private val dao: FavouritesDao) {
-    private lateinit var _people: Flow<List<Person>?>
-    val people: Flow<List<Person>?> get() = _people
+//    private lateinit var _people: Flow<List<Person>?>
+//    val people: Flow<List<Person>?> get() = _people
 
-    suspend fun getAllPeople() {
-        _people = dao.getAllPeople()
+    fun getAllPeople(): List<Person>? {
+        return dao.getAllPeople().value
     }
 
     suspend fun insert(person: Person) {
@@ -20,11 +21,11 @@ class FavouritesRepository(private val dao: FavouritesDao) {
         dao.deletePerson(person)
     }
 
-    private lateinit var _starships: Flow<List<Starship>?>
-    val starships: Flow<List<Starship>?> get() = _starships
+//    private lateinit var _starships: Flow<List<Starship>?>
+//    val starships: Flow<List<Starship>?> get() = _starships
 
-    suspend fun getAllStarship() {
-        _starships = dao.getAllStarships()
+    fun getAllStarship(): List<Starship>? {
+        return dao.getAllStarships().value
     }
 
     suspend fun insert(starship: Starship) {

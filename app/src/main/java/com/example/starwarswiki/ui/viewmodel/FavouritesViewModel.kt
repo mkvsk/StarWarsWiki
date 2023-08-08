@@ -7,38 +7,39 @@ import androidx.lifecycle.viewModelScope
 import com.example.starwarswiki.core.Person
 import com.example.starwarswiki.core.Starship
 import com.example.starwarswiki.ui.local.FavouritesRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class FavouritesViewModel(private val repository: FavouritesRepository) : ViewModel() {
     private val _person = MutableLiveData<Person>()
     val person: LiveData<Person> get() = _person
 
-    private fun setPerson(value: Person) {
+    fun setPerson(value: Person) {
         _person.value = value
     }
 
     private val _starship = MutableLiveData<Starship>()
     val starship: LiveData<Starship> get() = _starship
 
-    private fun setStarship(value: Starship) {
+    fun setStarship(value: Starship) {
         _starship.value = value
     }
 
-    private fun insertPerson(person: Person) = viewModelScope.launch {
+    fun insertPerson(person: Person) = viewModelScope.launch {
         repository.insert(person)
     }
 
-    private fun insertStarship(starship: Starship) = viewModelScope.launch {
+    fun insertStarship(starship: Starship) = viewModelScope.launch {
         repository.insert(starship)
     }
 
-//    private var allPeople = Flow<List<Person>?>()
-//
-//    fun getPeople() = viewModelScope.launch {
-//        allPeople = repository.getAllPeople()
-//    }
-//
+    private val _allPeople = MutableLiveData<List<Person>>()
+    val allPeople: LiveData<List<Person>> get() = _allPeople
+
+     fun setAllPeople() {
+        _allPeople.value = repository.getAllPeople()
+    }
+
+
 //    private val _allStarships = MutableLiveData<ArrayList<Starship>?>()
 //    val allStarships: LiveData<ArrayList<Starship>?> get() = _allStarships
 //

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.starwarswiki.core.Person
 import com.example.starwarswiki.ui.util.obtainViewModel
 import com.example.starwarswiki.ui.view.adapters.ItemAdapter
 import com.example.starwarswiki.ui.view.listeners.OnItemAddToFavListener
+import com.example.starwarswiki.ui.viewmodel.FavouritesViewModel
 import com.example.starwarswiki.ui.viewmodel.HomeViewModel
 import online.example.starwarswiki.databinding.FragmentHomeBinding
 
@@ -18,7 +20,7 @@ class HomeFragment : Fragment(), OnItemAddToFavListener {
     private val binding get() = _binding!!
 
     private val homeViewModel by lazy { obtainViewModel(HomeViewModel::class.java) }
-
+    private val favouritesViewModel by lazy { obtainViewModel(FavouritesViewModel::class.java) }
 
     private var rv: RecyclerView? = null
     private var itemAdapter: ItemAdapter? = null
@@ -57,6 +59,7 @@ class HomeFragment : Fragment(), OnItemAddToFavListener {
                 itemAdapter?.setData(it)
             }
         }
+
     }
 
     private fun setupAdapter() {
@@ -72,6 +75,8 @@ class HomeFragment : Fragment(), OnItemAddToFavListener {
     }
 
     override fun onItemAddToFav(item: Any, add: Boolean) {
-
+        if (item is Person) {
+            favouritesViewModel.insertPerson(item)
+        }
     }
 }

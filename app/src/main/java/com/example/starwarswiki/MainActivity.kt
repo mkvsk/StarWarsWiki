@@ -48,10 +48,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupRoom() {
+     fun setupRoom() {
         favouritesDao = FavouritesDatabase.getInstance(application).favouritesDao
         val repository = FavouritesRepository(favouritesDao)
-
     }
 
     private fun instantiateViewModels() {

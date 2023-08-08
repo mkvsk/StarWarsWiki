@@ -1,0 +1,344 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "e12f005cd9671b46dad7b0b2e93363e3",
+    "entities": [
+      {
+        "tableName": "Person",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `birthYear` TEXT NOT NULL, `eyeColor` TEXT NOT NULL, `gender` TEXT NOT NULL, `hairColor` TEXT NOT NULL, `height` TEXT NOT NULL, `mass` TEXT NOT NULL, `skinColor` TEXT NOT NULL, `homeWorld` TEXT NOT NULL, `films` TEXT NOT NULL, `species` TEXT NOT NULL, `starships` TEXT NOT NULL, `vehicles` TEXT NOT NULL, `id` TEXT NOT NULL, `created` TEXT NOT NULL, `edited` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "birthYear",
+            "columnName": "birthYear",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eyeColor",
+            "columnName": "eyeColor",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hairColor",
+            "columnName": "hairColor",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "height",
+            "columnName": "height",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mass",
+            "columnName": "mass",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "skinColor",
+            "columnName": "skinColor",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "homeWorld",
+            "columnName": "homeWorld",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "films",
+            "columnName": "films",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "species",
+            "columnName": "species",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "starships",
+            "columnName": "starships",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vehicles",
+            "columnName": "vehicles",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "created",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "edited",
+            "columnName": "edited",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Starship",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `model` TEXT NOT NULL, `starshipClass` TEXT NOT NULL, `manufacturer` TEXT NOT NULL, `costInCredits` TEXT NOT NULL, `length` TEXT NOT NULL, `crew` TEXT NOT NULL, `passengers` TEXT NOT NULL, `maxAtmospheringSpeed` TEXT NOT NULL, `hyperDriveRating` TEXT NOT NULL, `MGLT` TEXT NOT NULL, `cargoCapacity` TEXT NOT NULL, `consumables` TEXT NOT NULL, `films` TEXT NOT NULL, `pilots` TEXT NOT NULL, `id` TEXT NOT NULL, `created` TEXT NOT NULL, `edited` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "model",
+            "columnName": "model",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "starshipClass",
+            "columnName": "starshipClass",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "manufacturer",
+            "columnName": "manufacturer",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "costInCredits",
+            "columnName": "costInCredits",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "length",
+            "columnName": "length",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "crew",
+            "columnName": "crew",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passengers",
+            "columnName": "passengers",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxAtmospheringSpeed",
+            "columnName": "maxAtmospheringSpeed",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hyperDriveRating",
+            "columnName": "hyperDriveRating",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "MGLT",
+            "columnName": "MGLT",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cargoCapacity",
+            "columnName": "cargoCapacity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "consumables",
+            "columnName": "consumables",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "films",
+            "columnName": "films",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pilots",
+            "columnName": "pilots",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "created",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "edited",
+            "columnName": "edited",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Film",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `episodeId` INTEGER NOT NULL, `openingCrawl` TEXT NOT NULL, `director` TEXT NOT NULL, `producer` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `species` TEXT NOT NULL, `starships` TEXT NOT NULL, `vehicles` TEXT NOT NULL, `characters` TEXT NOT NULL, `planets` TEXT NOT NULL, `id` TEXT NOT NULL, `created` TEXT NOT NULL, `edited` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "episodeId",
+            "columnName": "episodeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "openingCrawl",
+            "columnName": "openingCrawl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "director",
+            "columnName": "director",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "producer",
+            "columnName": "producer",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "releaseDate",
+            "columnName": "releaseDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "species",
+            "columnName": "species",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "starships",
+            "columnName": "starships",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vehicles",
+            "columnName": "vehicles",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characters",
+            "columnName": "characters",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "planets",
+            "columnName": "planets",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "created",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "edited",
+            "columnName": "edited",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e12f005cd9671b46dad7b0b2e93363e3')"
+    ]
+  }
+}
