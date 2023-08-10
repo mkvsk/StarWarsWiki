@@ -10,10 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.starwarswiki.ui.util.obtainViewModel
 import com.example.starwarswiki.ui.view.adapters.FavItemAdapter
-import com.example.starwarswiki.ui.view.adapters.HomeItemAdapter
 import com.example.starwarswiki.ui.view.listeners.OnAddRemoveFromFavListener
 import com.example.starwarswiki.ui.viewmodel.FavouritesViewModel
-import kotlinx.coroutines.runBlocking
 import online.example.starwarswiki.databinding.FragmentFavouritesBinding
 
 class FavouritesFragment : Fragment(), OnAddRemoveFromFavListener {
@@ -24,7 +22,7 @@ class FavouritesFragment : Fragment(), OnAddRemoveFromFavListener {
     private val favouritesViewModel by lazy { obtainViewModel(FavouritesViewModel::class.java) }
     private var rv: RecyclerView? = null
     private var favItemAdapter: FavItemAdapter? = null
-
+    private var dataFavTmp = mutableSetOf<Any>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,9 +44,39 @@ class FavouritesFragment : Fragment(), OnAddRemoveFromFavListener {
     }
 
     private fun initObservers() {
-        favouritesViewModel.fetchFavData().observe(viewLifecycleOwner, Observer {
-            favItemAdapter!!.setData(it)
-            Log.d("TAG", "initObservers: ${it.count()}")
+        favouritesViewModel.fetchFavPeople().observe(viewLifecycleOwner, Observer {
+            it.forEach { person ->
+                dataFavTmp.add(person)
+            }
+            favItemAdapter!!.setData(dataFavTmp)
+            Log.d("TAG", "fetch fav PERSON: ${it.count()}")
+            favItemAdapter!!.notifyDataSetChanged()
+        })
+
+        favouritesViewModel.fetchFavFilms().observe(viewLifecycleOwner, Observer {
+            it.forEach { film ->
+                dataFavTmp.add(film)
+            }
+            favItemAdapter!!.setData(dataFavTmp)
+            Log.d("TAG", "fetch fav FILMS: ${it.count()}")
+            favItemAdapter!!.notifyDataSetChanged()
+        })
+
+        favouritesViewModel.fetchFavPlanets().observe(viewLifecycleOwner, Observer {
+            it.forEach { planet ->
+                dataFavTmp.add(planet)
+            }
+            favItemAdapter!!.setData(dataFavTmp)
+            Log.d("TAG", "fetch fav FILMS: ${it.count()}")
+            favItemAdapter!!.notifyDataSetChanged()
+        })
+
+        favouritesViewModel.fetchFavStarships().observe(viewLifecycleOwner, Observer {
+            it.forEach { starship ->
+                dataFavTmp.add(starship)
+            }
+            favItemAdapter!!.setData(dataFavTmp)
+            Log.d("TAG", "fetch fav FILMS: ${it.count()}")
             favItemAdapter!!.notifyDataSetChanged()
         })
 
@@ -66,14 +94,13 @@ class FavouritesFragment : Fragment(), OnAddRemoveFromFavListener {
         _binding = null
     }
 
-    override fun onItemAddToFav(item: Any) {
+    override fun onItemAddToFav(item: Any, position: Int) {
 
     }
 
-    override fun onItemRemoveFromFav(item: Any) {
-        runBlocking {
-            favouritesViewModel.delete(item)
-        }
+    override fun onItemRemoveFromFav(item: Any, position: Int) {
+        favouritesViewModel.delete(item)
+        favItemAdapter!!.notifyItemChanged(position)
     }
 
 }

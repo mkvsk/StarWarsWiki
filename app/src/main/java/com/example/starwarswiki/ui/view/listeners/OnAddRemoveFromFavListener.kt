@@ -1,8 +1,8 @@
 package com.example.starwarswiki.ui.view.listeners
 
 interface OnAddRemoveFromFavListener {
-    fun onItemAddToFav(item: Any)
+    fun onItemAddToFav(item: Any, position: Int)
 
-    fun onItemRemoveFromFav(item: Any)
+    fun onItemRemoveFromFav(item: Any, position: Int)
 
 }

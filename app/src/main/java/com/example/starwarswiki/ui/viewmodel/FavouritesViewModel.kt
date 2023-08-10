@@ -1,8 +1,6 @@
 package com.example.starwarswiki.ui.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
@@ -22,15 +20,26 @@ class FavouritesViewModel(
     val films = repository.getAllFilms().asLiveData()
     val planets = repository.getAllPlanets().asLiveData()
 
-    private var _favData = MutableLiveData<ArrayList<Any>?>()
-    val favData: LiveData<ArrayList<Any>?> get() = _favData
-
-    private fun setAllData(value: ArrayList<Any>?) {
-        value?.let { _favData.value = it }
+    fun fetchFavPeople() = liveData {
+        repository.getAllPeople().collect {
+            emit(it)
+        }
     }
 
-    fun fetchFavData() = liveData {
-        repository.getAllPeople().collect {
+    fun fetchFavPlanets() = liveData {
+        repository.getAllPlanets().collect {
+            emit(it)
+        }
+    }
+
+    fun fetchFavFilms() = liveData {
+        repository.getAllFilms().collect {
+            emit(it)
+        }
+    }
+
+    fun fetchFavStarships() = liveData {
+        repository.getAllStarship().collect {
             emit(it)
         }
     }
@@ -56,7 +65,7 @@ class FavouritesViewModel(
         }
 
         if (newRowId != null && newRowId > -1) {
-            Log.d("TAG", "Subscriber Inserted Successfully $newRowId")
+            Log.d("TAG", "Inserted Successfully $newRowId")
         } else {
             Log.d("TAG", "Error Occurred")
         }

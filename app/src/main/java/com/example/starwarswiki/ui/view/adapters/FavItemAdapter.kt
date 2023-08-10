@@ -17,7 +17,7 @@ import online.example.starwarswiki.databinding.RvItemBinding
 class FavItemAdapter(private val context: Context) :
     RecyclerView.Adapter<FavItemAdapter.ItemViewHolder>() {
 
-    private var data: ArrayList<Any> = ArrayList()
+    private var data = mutableSetOf<Any>()
     private lateinit var listener: OnAddRemoveFromFavListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -26,8 +26,8 @@ class FavItemAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val rvItem = data[position]
-        holder.bind(rvItem, position)
+        val rvItem = data.elementAt(position)
+        holder.bind(rvItem)
     }
 
     override fun getItemCount(): Int {
@@ -35,8 +35,8 @@ class FavItemAdapter(private val context: Context) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Any>) {
-        this.data = data as ArrayList
+    fun setData(data: MutableSet<Any>) {
+        this.data = data
         notifyDataSetChanged()
     }
 
@@ -48,7 +48,7 @@ class FavItemAdapter(private val context: Context) :
         RecyclerView.ViewHolder(rvItemBinding.root) {
         private val binding = rvItemBinding
 
-        fun bind(rvItem: Any, position: Int) {
+        fun bind(rvItem: Any) {
             Glide
                 .with(context)
                 .load(R.drawable.ic_in_fav)
@@ -100,20 +100,9 @@ class FavItemAdapter(private val context: Context) :
             }
 
             binding.btnAddRemove.setOnClickListener {
-                Glide
-                    .with(context)
-                    .load(R.drawable.ic_add_to_fav)
-                    .into(binding.btnAddRemove)
-                listener.onItemRemoveFromFav(rvItem)
-
+                data.remove(rvItem)
+                listener.onItemRemoveFromFav(rvItem, bindingAdapterPosition)
             }
-
-//            binding.btnAddRemove.setOnClickListener {
-//                runBlocking {
-//                    listener.onItemRemoveFromFav(rvItem)
-//                    bindingAdapter?.notifyItemRemoved(position)
-//                }
-//            }
         }
     }
 }

@@ -1,6 +1,9 @@
 package com.example.starwarswiki.ui.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -35,7 +38,16 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
 
     private var rv: RecyclerView? = null
     private var homeItemAdapter: HomeItemAdapter? = null
-    private val dataTmp = ArrayList<Any>()
+    private val dataTmp = mutableSetOf<Any>()
+    private val dataFavTmp = mutableSetOf<Any>()
+
+    companion object {
+        const val KEY_RECYCLER_STATE = "recycler_state"
+    }
+
+    private var mBundleRecyclerViewState: Bundle? = null
+    private var mListState: Parcelable? = null
+    private var mRecyclerView: RecyclerView? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,12 +59,13 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        favouritesViewModel.fetchFavData()
-//        homeViewModel.getAllFilms()
-//        homeViewModel.getAllPeople()
-//        homeViewModel.getAllPlanets()
-//        homeViewModel.getAllStarships()
-        getData()
+        binding.loader.progressOverlay.visibility = View.VISIBLE
+        homeViewModel.getAllFilms()
+        homeViewModel.getAllPeople()
+        homeViewModel.getAllPlanets()
+        homeViewModel.getAllStarships()
+
+//        getData()
         setupAdapter()
         initObservers()
         initViews()
@@ -97,6 +110,43 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
             )
         )
 
+        dataTmp.add(
+            Film(
+                title = "Film Allo",
+                episodeId = 111,
+                openingCrawl = "openingCrawl",
+                director = "director",
+                producer = "producer",
+                releaseDate = "releaseDate",
+                species = emptyList(),
+                starships = emptyList(),
+                vehicles = emptyList(),
+                url = "url1339",
+                created = "created",
+                edited = "edited",
+                characters = emptyList(),
+                planets = emptyList()
+            )
+        )
+        dataTmp.add(
+            Film(
+                title = "Film bla bla",
+                episodeId = 222,
+                openingCrawl = "openingCrawl",
+                director = "director",
+                producer = "producer",
+                releaseDate = "releaseDate",
+                species = emptyList(),
+                starships = emptyList(),
+                vehicles = emptyList(),
+                url = "url1337",
+                created = "created",
+                edited = "edited",
+                characters = emptyList(),
+                planets = emptyList()
+            )
+        )
+
     }
 
     private fun initListeners() {
@@ -107,34 +157,6 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
             override fun onTextChanged(queryText: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (!binding.edittextSearch.text.isNullOrBlank() && binding.edittextSearch.text.toString().length > 1) {
                     filter(binding.edittextSearch.text.toString())
-//                    if (queryText.length >= 2) {
-//                        val temp = homeViewModel.allData.value!!.filter {
-//                            when (it) {
-//                                is Person -> {
-//                                    it.name.contains(queryText.toString(), true)
-//                                }
-//
-//                                is Planet -> {
-//                                    it.name.contains(queryText.toString(), true)
-//                                }
-//
-//                                is Film -> {
-//                                    it.title.contains(queryText.toString(), true)
-//                                }
-//
-//                                is Starship -> {
-//                                    it.name.contains(queryText.toString(), true)
-////                                    or it . model . contains (queryText.toString(), true)
-//                                }
-//
-//                                else -> {
-//                                    it.toString().contains(queryText.toString(), true)
-//                                }
-//                            }
-//                        }
-//                        Log.d("TAG", "filter: ${temp.joinToString("*")}")
-//                        homeItemAdapter!!.setData(temp)
-//                    }
                 } else {
                     homeItemAdapter!!.setData(dataTmp)
                 }
@@ -180,7 +202,7 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
                     it.toString().contains(s, true)
                 }
             }
-        }
+        }.toMutableSet()
 
         homeItemAdapter.run {
             if (temp.isNotEmpty()) {
@@ -196,20 +218,88 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
     }
 
     private fun initObservers() {
-        favouritesViewModel.fetchFavData().observe(viewLifecycleOwner, Observer {
-            homeItemAdapter?.favData = it
-            homeItemAdapter?.setData(dataTmp)
-            Log.d("TAG", "initObservers: ${it.count()}")
+        homeViewModel.allPeople.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                dataTmp.addAll(it)
+                homeItemAdapter?.setData(dataTmp)
+                binding.loader.progressOverlay.visibility = View.GONE
+            }
+        })
 
+        homeViewModel.allPlanets.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                dataTmp.addAll(it)
+            }
+        })
+
+        homeViewModel.allStarships.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                dataTmp.addAll(it)
+            }
+        })
+
+        homeViewModel.allFilms.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                dataTmp.addAll(it)
+            }
+        })
+
+        favouritesViewModel.fetchFavPeople().observe(viewLifecycleOwner, Observer {
+            it.forEach { person ->
+                dataFavTmp.add(person)
+            }
+            homeItemAdapter?.setFavData(dataFavTmp)
+            homeItemAdapter?.setData(dataTmp)
+            Log.d("TAG", "fetch PERSON: ${it.count()}")
+            homeItemAdapter!!.notifyDataSetChanged()
+
+        })
+
+        favouritesViewModel.fetchFavFilms().observe(viewLifecycleOwner, Observer {
+            it.forEach { film ->
+                dataFavTmp.add(film)
+            }
+            homeItemAdapter?.setFavData(dataFavTmp)
+            homeItemAdapter?.setData(dataTmp)
+
+            Log.d("TAG", "fetch FILMS: ${it.count()}")
+            homeItemAdapter!!.notifyDataSetChanged()
+
+        })
+
+        favouritesViewModel.fetchFavPlanets().observe(viewLifecycleOwner, Observer {
+            it.forEach { planet ->
+                dataFavTmp.add(planet)
+            }
+            homeItemAdapter?.setFavData(dataFavTmp)
+            homeItemAdapter?.setData(dataTmp)
+
+            Log.d("TAG", "fetch PLANETS: ${it.count()}")
+            homeItemAdapter!!.notifyDataSetChanged()
+
+        })
+
+        favouritesViewModel.fetchFavStarships().observe(viewLifecycleOwner, Observer {
+            it.forEach { starship ->
+                dataFavTmp.add(starship)
+            }
+            homeItemAdapter?.setFavData(dataFavTmp)
+            homeItemAdapter?.setData(dataTmp)
+
+            Log.d("TAG", "fetch STARSHIPS: ${it.count()}")
+            homeItemAdapter!!.notifyDataSetChanged()
         })
 
     }
 
     private fun setupAdapter() {
         rv = binding.rvHome
+        mRecyclerView = rv
         homeItemAdapter = HomeItemAdapter(requireContext())
         homeItemAdapter!!.setClickListener(this)
-        rv!!.adapter = homeItemAdapter
+        rv?.adapter = homeItemAdapter
+        rv?.adapter?.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
     override fun onDestroyView() {
@@ -217,11 +307,34 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
         _binding = null
     }
 
-    override fun onItemAddToFav(item: Any) {
+    override fun onItemAddToFav(item: Any, position: Int) {
         favouritesViewModel.insert(item)
+        homeItemAdapter!!.notifyItemChanged(position)
     }
 
-    override fun onItemRemoveFromFav(item: Any) {
+    override fun onItemRemoveFromFav(item: Any, position: Int) {
         favouritesViewModel.delete(item)
+        homeItemAdapter!!.notifyItemChanged(position)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (mBundleRecyclerViewState != null) {
+            Looper.myLooper()?.let {
+                Handler(it).post {
+                    mListState = mBundleRecyclerViewState?.getBundle(KEY_RECYCLER_STATE)
+                    mRecyclerView!!.layoutManager?.onRestoreInstanceState(mListState)
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        mBundleRecyclerViewState = Bundle()
+        mListState = mRecyclerView!!.layoutManager?.onSaveInstanceState()
+        mBundleRecyclerViewState?.putParcelable(KEY_RECYCLER_STATE, mListState)
     }
 }

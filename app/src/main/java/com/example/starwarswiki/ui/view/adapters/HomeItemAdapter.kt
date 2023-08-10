@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.starwarswiki.core.Film
 import com.example.starwarswiki.core.Person
 import com.example.starwarswiki.core.Planet
@@ -16,10 +16,9 @@ import online.example.starwarswiki.databinding.RvItemBinding
 
 class HomeItemAdapter(private val context: Context) :
     RecyclerView.Adapter<HomeItemAdapter.ItemViewHolder>() {
-
-    var inFav: Boolean = false
-    private var data: List<Any> = mutableListOf()
-    var favData: List<Any> = ArrayList()
+    private var inFav = false
+    private var data = mutableSetOf<Any>()
+    private var favData = mutableSetOf<Any>()
     private lateinit var listener: OnAddRemoveFromFavListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -28,8 +27,8 @@ class HomeItemAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val rvItem = data[position]
-        holder.bind(rvItem, position)
+        val rvItem = data.elementAt(position)
+        holder.bind(rvItem)
     }
 
     override fun getItemCount(): Int {
@@ -37,33 +36,60 @@ class HomeItemAdapter(private val context: Context) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Any>) {
+    fun setData(data: MutableSet<Any>) {
         this.data = data
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun setFavData(favData: MutableSet<Any>) {
+        this.favData = favData
+    }
+
     fun checkIsFavourite(item: Any) {
-        if (item is Person) {
-            favData.forEach {
-                when (it) {
-                    is Person -> {
-                        inFav = item.url == it.url
-                    }
+        inFav = favData.contains(item)
 
-                    is Planet -> {
-                        inFav = item.url == it.url
-                    }
+//        favData.forEach {
+//            when (it) {
+//                is Person -> {
+//                    if (item == it) {
+//                        inFav = true
+//                    } else {
+//                        inFav = false
+//                    }
+////                    inFav = item == it
+//                }
+//
+//                is Planet -> {
+//                    if (item == it) {
+//                        inFav = true
+//                    } else {
+//                        inFav = false
+//                    }
+////                    inFav = item == it
+//
+//                }
+//
+//                is Film -> {
+//                    if (item == it) {
+//                        inFav = true
+//                    } else {
+//                        inFav = false
+//                    }
+////                    inFav = item == it
+//                }
+//
+//                is Starship -> {
+//                    if (item == it) {
+//                        inFav = true
+//                    } else {
+//                        inFav = false
+//                    }
+////                    inFav = item == it
+//                }
+//            }
+//        }
 
-                    is Film -> {
-                        inFav = item.url == it.url
-                    }
-
-                    is Starship -> {
-                        inFav = item.url == it.url
-                    }
-                }
-            }
-        }
 
     }
 
@@ -75,19 +101,26 @@ class HomeItemAdapter(private val context: Context) :
         RecyclerView.ViewHolder(rvItemBinding.root) {
         private val binding = rvItemBinding
 
-        fun bind(rvItem: Any, position: Int) {
-            checkIsFavourite(rvItem)
-            if (inFav) {
-                Glide
-                    .with(context)
-                    .load(R.drawable.ic_in_fav)
-                    .into(binding.btnAddRemove)
-            } else {
-                Glide
-                    .with(context)
-                    .load(R.drawable.ic_add_to_fav)
-                    .into(binding.btnAddRemove)
+        fun bind(rvItem: Any) {
+            inFav = false
+            favData.forEach {
+                if (rvItem == it) {
+                    inFav = true
+                }
             }
+            toggleFavourites(binding.btnAddRemove, inFav)
+//            checkIsFavourite(rvItem)
+//            if (inFav) {
+//                Glide
+//                    .with(context)
+//                    .load(R.drawable.ic_in_fav)
+//                    .into(binding.btnAddRemove)
+//            } else {
+//                Glide
+//                    .with(context)
+//                    .load(R.drawable.ic_add_to_fav)
+//                    .into(binding.btnAddRemove)
+//            }
 
             when (rvItem) {
                 is Person -> {
@@ -136,19 +169,19 @@ class HomeItemAdapter(private val context: Context) :
 
             binding.btnAddRemove.setOnClickListener {
                 if (inFav) {
-                    Glide
-                        .with(context)
-                        .load(R.drawable.ic_add_to_fav)
-                        .into(binding.btnAddRemove)
-                    listener.onItemRemoveFromFav(rvItem)
+                    listener.onItemRemoveFromFav(rvItem, bindingAdapterPosition)
                 } else {
-                    Glide
-                        .with(context)
-                        .load(R.drawable.ic_in_fav)
-                        .into(binding.btnAddRemove)
-                    listener.onItemAddToFav(rvItem)
+                    listener.onItemAddToFav(rvItem, bindingAdapterPosition)
                 }
             }
+        }
+    }
+
+    private fun toggleFavourites(favourite: ImageView, inFav: Boolean) {
+        if (inFav) {
+            favourite.setImageResource(R.drawable.ic_in_fav)
+        } else {
+            favourite.setImageResource(R.drawable.ic_add_to_fav)
         }
     }
 }
