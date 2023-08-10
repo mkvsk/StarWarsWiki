@@ -1,18 +1,18 @@
 package com.example.starwarswiki
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.Room
-import com.example.starwarswiki.ui.local.FavouritesDatabase
+import com.example.starwarswiki.core.Person
 import com.example.starwarswiki.ui.local.FavouritesDao
+import com.example.starwarswiki.ui.local.FavouritesDatabase
 import com.example.starwarswiki.ui.local.FavouritesRepository
 import com.example.starwarswiki.ui.viewmodel.FavouritesViewModel
 import com.example.starwarswiki.ui.viewmodel.HomeViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import online.example.starwarswiki.R
 import online.example.starwarswiki.databinding.ActivityMainBinding
 
@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var favouritesViewModel: FavouritesViewModel
     private lateinit var favouritesDao: FavouritesDao
 
+    private lateinit var favouritesRepository: FavouritesRepository
+    private lateinit var favouritesFactory: FavouritesViewModelFactory
+
     companion object {
         private const val TAG = "MainActivity"
     }
@@ -33,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instantiateViewModels()
-        setupRoom()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -45,17 +47,15 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.onNavDestinationSelected(it, navController)
             return@setOnItemSelectedListener true
         }
-
-    }
-
-     fun setupRoom() {
-        favouritesDao = FavouritesDatabase.getInstance(application).favouritesDao
-        val repository = FavouritesRepository(favouritesDao)
     }
 
     private fun instantiateViewModels() {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        favouritesViewModel = ViewModelProvider(this)[FavouritesViewModel::class.java]
+        favouritesDao = FavouritesDatabase.getInstance(application).favouritesDao()
+        favouritesRepository = FavouritesRepository(favouritesDao)
+        favouritesFactory = FavouritesViewModelFactory(favouritesRepository)
+        favouritesViewModel =
+            ViewModelProvider(this, favouritesFactory)[FavouritesViewModel::class.java]
     }
 
     override fun onDestroy() {

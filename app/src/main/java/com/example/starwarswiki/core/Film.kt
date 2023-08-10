@@ -3,6 +3,8 @@ package com.example.starwarswiki.core
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.starwarswiki.core.converter.ListConverter
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
@@ -25,22 +27,27 @@ data class Film(
     val producer: String,
 
     @SerializedName("release_date")
-    val releaseDate: Date,
+    val releaseDate: String,
 
     @SerializedName("species")
-    val species: ArrayList<Species>,
+    @TypeConverters(ListConverter::class)
+    val species: List<String>,
 
     @SerializedName("starships")
-    val starships: ArrayList<String>,
+    @TypeConverters(ListConverter::class)
+    val starships: List<String>,
 
     @SerializedName("vehicles")
-    val vehicles: ArrayList<String>,
+    @TypeConverters(ListConverter::class)
+    val vehicles: List<String>,
 
     @SerializedName("characters")
-    val characters: ArrayList<String>,
+    @TypeConverters(ListConverter::class)
+    val characters: List<String>,
 
     @SerializedName("planets")
-    val planets: ArrayList<String>,
+    @TypeConverters(ListConverter::class)
+    val planets: List<String>,
 
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = false)

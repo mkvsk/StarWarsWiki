@@ -4,11 +4,11 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="@string/toolbar_title_home" />
 
     <item
         android:id="@+id/navigation_favourites"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_favourites" />
+        android:title="@string/toolbar_title_favourites" />
 
 </menu>

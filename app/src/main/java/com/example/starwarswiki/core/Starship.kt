@@ -3,6 +3,8 @@ package com.example.starwarswiki.core
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.starwarswiki.core.converter.ListConverter
 import com.google.gson.annotations.SerializedName
 
 @Entity
@@ -48,10 +50,12 @@ data class Starship(
     val consumables: String,
 
     @SerializedName("films")
-    val films: ArrayList<String>,
+    @TypeConverters(ListConverter::class)
+    val films: List<String>,
 
     @SerializedName("pilots")
-    val pilots: ArrayList<String>,
+    @TypeConverters(ListConverter::class)
+    val pilots: List<String>,
 
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = false)

@@ -1,38 +1,57 @@
 package com.example.starwarswiki.ui.local
 
-import androidx.lifecycle.MutableLiveData
+import com.example.starwarswiki.core.Film
 import com.example.starwarswiki.core.Person
+import com.example.starwarswiki.core.Planet
 import com.example.starwarswiki.core.Starship
 import kotlinx.coroutines.flow.Flow
 
 class FavouritesRepository(private val dao: FavouritesDao) {
-//    private lateinit var _people: Flow<List<Person>?>
-//    val people: Flow<List<Person>?> get() = _people
-
-    fun getAllPeople(): List<Person>? {
-        return dao.getAllPeople().value
+    fun getAllPeople(): Flow<List<Person>> {
+        return dao.getAllPeople()
     }
 
-    suspend fun insert(person: Person) {
-        dao.insertPeople(person)
+    suspend fun insert(person: Person): Long {
+        return dao.insertPerson(person)
     }
 
-    suspend fun delete(person: Person) {
-        dao.deletePerson(person)
+    suspend fun delete(person: Person): Int {
+        return dao.deletePerson(person)
     }
 
-//    private lateinit var _starships: Flow<List<Starship>?>
-//    val starships: Flow<List<Starship>?> get() = _starships
-
-    fun getAllStarship(): List<Starship>? {
-        return dao.getAllStarships().value
+    fun getAllStarship(): Flow<List<Starship>> {
+        return dao.getAllStarships()
     }
 
-    suspend fun insert(starship: Starship) {
-        dao.insertStarship(starship)
+    suspend fun insert(starship: Starship): Long {
+        return dao.insertStarship(starship)
     }
 
-    suspend fun delete(starship: Starship) {
-        dao.deleteStarship(starship)
+    suspend fun delete(starship: Starship): Int {
+        return dao.deleteStarship(starship)
+    }
+
+    fun getAllFilms(): Flow<List<Film>> {
+        return dao.getAllFilms()
+    }
+
+    suspend fun insert(film: Film): Long {
+        return dao.insertFilm(film)
+    }
+
+    suspend fun delete(film: Film): Int {
+        return dao.deleteFilm(film)
+    }
+
+    fun getAllPlanets(): Flow<List<Planet>> {
+        return dao.getAllPlanets()
+    }
+
+    suspend fun insert(planet: Planet): Long {
+        return dao.insertPlanet(planet)
+    }
+
+    suspend fun delete(planet: Planet): Int {
+        return dao.deletePlanet(planet)
     }
 }

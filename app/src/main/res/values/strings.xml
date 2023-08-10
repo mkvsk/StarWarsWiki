@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">StarWarsWiki</string>
-    <string name="title_home">Home</string>
-    <string name="title_favourites">Favourites</string>
+    <string name="toolbar_title_home">Home</string>
+    <string name="toolbar_title_favourites">Favourites</string>
+    <string name="format_person_info">Name: %s\nGender: %s\nAmount starships piloted: %s</string>
+    <string name="format_starship_info">Title: %s\nModel: %s\nManufacturer: %s\nPassengers: %s</string>
+    <string name="format_planet_info">Title: %s\nDiameter: %s\nPopulation: %s</string>
+    <string name="format_film_info">Title: %s\nDirector: %s\nProducer: %s</string>
+    <string name="person">Person</string>
+    <string name="starship">Starship</string>
+    <string name="film">Film</string>
+    <string name="planet">Planet</string>
+
 </resources>

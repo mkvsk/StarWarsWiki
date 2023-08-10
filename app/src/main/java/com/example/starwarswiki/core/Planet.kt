@@ -1,7 +1,13 @@
 package com.example.starwarswiki.core
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.starwarswiki.core.converter.ListConverter
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Planet(
     //    Search Field name
     @SerializedName("name")
@@ -32,12 +38,16 @@ data class Planet(
     val surfaceWater: String,
 
     @SerializedName("residents")
-    val residents: ArrayList<Person>,
+    @TypeConverters(ListConverter::class)
+    val residents: List<String>,
 
     @SerializedName("films")
-    val films: ArrayList<Film>,
+    @TypeConverters(ListConverter::class)
+    val films: List<String>,
 
     @SerializedName("url")
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = false)
     val url: String,
 
     @SerializedName("created")

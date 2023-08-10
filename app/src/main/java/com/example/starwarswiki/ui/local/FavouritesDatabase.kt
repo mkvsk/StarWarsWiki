@@ -4,20 +4,25 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.starwarswiki.core.Film
 import com.example.starwarswiki.core.Person
+import com.example.starwarswiki.core.Planet
 import com.example.starwarswiki.core.Starship
+import com.example.starwarswiki.core.converter.ListConverter
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         Person::class,
         Starship::class,
-        Film::class
+        Film::class,
+        Planet::class
     ]
 )
+@TypeConverters(ListConverter::class)
 abstract class FavouritesDatabase : RoomDatabase() {
-    abstract val favouritesDao: FavouritesDao
+    abstract fun favouritesDao(): FavouritesDao
 
     companion object {
         @Volatile
@@ -30,7 +35,9 @@ abstract class FavouritesDatabase : RoomDatabase() {
                         context.applicationContext,
                         FavouritesDatabase::class.java,
                         "fav_db"
-                    ).build()
+                    )
+                        .fallbackToDestructiveMigration()
+                        .build()
                 }
                 return instance
             }
