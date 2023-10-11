@@ -1,5 +1,6 @@
 package com.example.starwarswiki.ui.view
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -43,6 +44,7 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
 
     companion object {
         const val KEY_RECYCLER_STATE = "recycler_state"
+        const val TAG = "HomeFragment"
     }
 
     private var mBundleRecyclerViewState: Bundle? = null
@@ -53,12 +55,14 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG, "onCreateView: ")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated: ")
         binding.loader.progressOverlay.visibility = View.VISIBLE
         homeViewModel.getAllFilms()
         homeViewModel.getAllPeople()
@@ -70,6 +74,27 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
         initObservers()
         initViews()
         initListeners()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: ")
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d(TAG, "onAttach: ")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate: ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
+        _binding = null
     }
 
     private fun getData() {
@@ -146,7 +171,6 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
                 planets = emptyList()
             )
         )
-
     }
 
     private fun initListeners() {
@@ -304,7 +328,7 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        Log.d(TAG, "onDestroyView: ")
     }
 
     override fun onItemAddToFav(item: Any, position: Int) {
@@ -319,7 +343,7 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
 
     override fun onResume() {
         super.onResume()
-
+        Log.d(TAG, "onResume: ")
         if (mBundleRecyclerViewState != null) {
             Looper.myLooper()?.let {
                 Handler(it).post {
@@ -332,7 +356,7 @@ class HomeFragment : Fragment(), OnAddRemoveFromFavListener {
 
     override fun onPause() {
         super.onPause()
-
+        Log.d(TAG, "onPause: ")
         mBundleRecyclerViewState = Bundle()
         mListState = mRecyclerView!!.layoutManager?.onSaveInstanceState()
         mBundleRecyclerViewState?.putParcelable(KEY_RECYCLER_STATE, mListState)

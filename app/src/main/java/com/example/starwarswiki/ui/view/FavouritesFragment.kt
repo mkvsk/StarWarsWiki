@@ -89,8 +89,8 @@ class FavouritesFragment : Fragment(), OnAddRemoveFromFavListener {
         rv!!.adapter = favItemAdapter
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 

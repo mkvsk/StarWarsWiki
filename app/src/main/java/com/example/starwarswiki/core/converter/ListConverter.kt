@@ -13,7 +13,7 @@ object ListConverter {
         return if (string == null) {
             emptyList()
         } else {
-            (string.split("|").toList()) as List<String>
+            (string.split("|").toList())
         }
     }
 }
